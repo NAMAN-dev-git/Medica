@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Checkout | MEDICA{% endblock %}
+{% block content %}
+<section class="auth-section">
+  <div class="auth-card checkout-card">
+    <span class="eyebrow">SECURE CHECKOUT</span>
+    <h1>Almost there.</h1>
+    <div class="summary-total"><span>Total to pay</span><strong>₹{{ total }}</strong></div>
+    <button id="pay-button" class="btn btn-primary full">Pay Now</button>
+  </div>
+</section>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  document.getElementById('pay-button').onclick = function () {
+    var payment = new Razorpay({
+      key: '{{ razorpay_key }}',
+      amount: '{{ payment.amount }}',
+      currency: 'INR',
+      name: 'MEDICA Bhopal',
+      description: 'Health essentials',
+      order_id: '{{ payment.id }}',
+      callback_url: '{{ callback_url }}',
+      redirect: true,
+      modal: {
+        ondismiss: function () {
+          window.location.href = '{% url "cart" %}';
+        }
+      }
+    });
+    payment.open();
+  };
+</script>
+{% endblock %}

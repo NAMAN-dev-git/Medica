@@ -1,0 +1,5 @@
+{% extends 'base.html' %}
+{% block title %}{{ product.name }} | MEDICA{% endblock %}
+{% block content %}
+<section class="section section-white detail-section"><div class="container detail-grid"><div class="detail-visual"><img src="{{ product.image_url }}" alt="{{ product.name }}"></div><div class="detail-copy"><span class="eyebrow">{{ product.category.name }}</span><h1>{{ product.name }}</h1><div class="detail-price">₹{{ product.price }}</div><p>{{ product.description }}</p>{% if quantity %}<div class="card-quantity"><form action="{% url 'update_cart' product.id %}" method="post">{% csrf_token %}<input type="hidden" name="quantity" value="{{ quantity|add:'-1' }}"><button type="submit">−</button></form><span>{{ quantity }}</span><form action="{% url 'update_cart' product.id %}" method="post">{% csrf_token %}<input type="hidden" name="quantity" value="{{ quantity|add:'1' }}"><button type="submit">+</button></form></div>{% else %}<a class="btn btn-primary" href="{% url 'add_to_cart' product.id %}">Add to cart</a>{% endif %}</div></div></section>
+{% endblock %}
